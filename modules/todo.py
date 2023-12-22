@@ -336,6 +336,8 @@ class todo(QMainWindow, Ui_Todo):
         if self.curr_plan != 'today' and self.curr_plan != 'week' and self.curr_plan != 'month':
             return
         text = item.text()
+        if text[0] == '🚨' or text[0] == '🎯':
+            text = text[2:]
 
         con = sqlite3.connect("data/database.sqlite")
         cur = con.cursor()
