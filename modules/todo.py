@@ -99,8 +99,6 @@ class todo(QMainWindow, Ui_Todo):
 
         self.title.setFont(self.font)
         self.category.setFont(self.font)
-        self.repeat.setFont(self.font)
-        self.description.setFont(self.font)
         self.markAsDoneBtn.setFont(self.font)
 
         self.titleLabel.setFont(self.font)
@@ -261,6 +259,7 @@ class todo(QMainWindow, Ui_Todo):
             if elem[0] not in titles:
                 titles.append(elem[0])
                 item = QListWidgetItem()
+                item.setText(elem[0])
 
                 c1, c2, c3 = map(int, elem[1].split())
                 if 1 - (0.299 * c1 + 0.587 * c2 + 0.114 * c3) / 255 < 0.5:
@@ -271,14 +270,12 @@ class todo(QMainWindow, Ui_Todo):
                         else:
                             icon = QIcon(r'images/blackCheckboxOn.png')
                         item.setIcon(icon)
-
                         if self.curr_plan == 'today' and elem[3]:
                             y, m, d = map(int, elem[3].split('-'))
                             if (datetime.datetime(y, m, d) - datetime.datetime.now()).days < 2:
-                                item.setForeground(QColor(255, 36, 0))
+                                item.setText('🚨 ' + elem[0])
                             elif (datetime.datetime(y, m, d) - datetime.datetime.now()).days < 5:
-                                item.setForeground(QColor(255, 165, 0))
-
+                                item.setText('🎯 ' + elem[0])
 
                 else:
                     item.setForeground(QColor(255, 255, 255))
@@ -290,7 +287,6 @@ class todo(QMainWindow, Ui_Todo):
                         item.setIcon(icon)
                 item.setBackground(QColor(c1, c2, c3))
 
-                item.setText(elem[0])
                 self.tasksList.addItem(item)
         con.close()
 
