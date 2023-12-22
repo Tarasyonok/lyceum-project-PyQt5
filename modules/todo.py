@@ -315,14 +315,14 @@ class todo(QMainWindow, Ui_Todo):
         if self.curr_plan != 'week':
             self.hide_right_part()
         self.curr_plan = 'week'
-        self.planLabel.setText("Дела на неделю")
+        self.planLabel.setText("План на неделю")
         self.load_tasks()
 
     def load_month(self):
         if self.curr_plan != 'month':
             self.hide_right_part()
         self.curr_plan = 'month'
-        self.planLabel.setText("Дела на месяц")
+        self.planLabel.setText("План на месяц")
         self.load_tasks()
 
     def show_all(self):
