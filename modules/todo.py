@@ -400,6 +400,7 @@ class todo(QMainWindow, Ui_Todo):
         self.editBtn.hide()
 
     def show_right_part(self, item):
+        self.hide_right_part()
         index = self.tasksList.indexFromItem(item).row()
 
         con = sqlite3.connect("data/database.sqlite")
@@ -461,12 +462,16 @@ class todo(QMainWindow, Ui_Todo):
         self.category.clear()
         self.category.append(cat)
         self.category.show()
-
         if self.curr_plan == 'today' and result[5]:
             self.deadlineLabel.show()
             self.deadline.show()
             self.deadline.setDate(datetime.datetime.strptime(result[5], "%Y-%m-%d").date())
-        if self.curr_plan == 'tomorrow' and result[4]:
+        if self.curr_plan == 'tomorrow' and result in info2 and result[4]:
+            self.repeatLabel.show()
+            self.repeat.clear()
+            self.repeat.append(result[4])
+            self.repeat.show()
+        if self.curr_plan == 'tomorrow' and result not in info2 and result[4]:
             self.deadlineLabel.show()
             self.deadline.show()
             self.deadline.setDate(datetime.datetime.strptime(result[4], "%Y-%m-%d").date())
@@ -579,24 +584,24 @@ class todo(QMainWindow, Ui_Todo):
         con.commit()
 
         now = datetime.datetime.now()
-        date1 = now.year * 100000 + now.month * 1000 + now.day
 
         titles = []
         for r in set(result):
-
             if r[3] and str(r[3]) != '0':
                 y, m, d = map(int, r[3].split('-'))
-                date2 = y * 100000 + m * 1000 + d
+                task_date = datetime.datetime(y, m, d)
                 deadline = "'" + r[3] + "'"
             else:
                 deadline = 'NULL'
 
-                if r[2]:
-                    cat = r[2]
-                else:
-                    cat = 'NULL'
+            if r[2]:
+                cat = r[2]
+            else:
+                cat = 'NULL'
 
-            if deadline == 'NULL' or date2 > date1 and r[0] not in titles:
+            # (datetime.datetime(y, m, d) - datetime.datetime.now()).days < 2
+            print(deadline)
+            if (deadline == 'NULL' or task_date > now) and r[0] not in titles:
                 try:
                     titles.append(r[0])
                     cur.execute(f"""
