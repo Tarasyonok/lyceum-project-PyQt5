@@ -68,12 +68,19 @@ class todo(QMainWindow, Ui_Todo):
         self.editBtn.setIcon(QIcon(r"images/pen.png"))
 
     def load_font(self):
-        fontId = QFontDatabase.addApplicationFont(r"Roboto/Roboto-Regular.ttf")
+        fontId = QFontDatabase.addApplicationFont(r"fonts/Roboto/Roboto-Regular.ttf")
         if fontId == 0:
             fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
             self.font = QFont(fontName, 15)
         else:
             self.font = QFont()
+
+        Rubik_fontId = QFontDatabase.addApplicationFont(r"fonts/Rubik_Dirt/RubikDirt-Regular.ttf")
+        if fontId == 0:
+            fontName = QFontDatabase.applicationFontFamilies(Rubik_fontId)[0]
+            self.Rubik_font = QFont(fontName, 15)
+        else:
+            self.Rubik_font = QFont()
 
         self.tasksList.setFont(self.font)
 
@@ -101,7 +108,7 @@ class todo(QMainWindow, Ui_Todo):
         self.repeatLabel.setFont(self.font)
         self.descriptionLabel.setFont(self.font)
 
-        self.planLabel.setFont(self.font)
+        self.planLabel.setFont(self.Rubik_font)
 
     def keyPressEvent(self, event):
         modifiers = QApplication.keyboardModifiers()
