@@ -45,8 +45,6 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
             self.statusBar().showMessage("Название не может быть пустым", 5000)
             return
 
-        print(title)
-
         con = sqlite3.connect("data/database.sqlite")
         cur = con.cursor()
 
@@ -209,7 +207,6 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
                                  f'Действительно удалить категорию "{title}"?\n (Все дела с этой категорией станут без категории)')
         if x > 50000:
             return
-        print(title)
 
         cur.execute("""DELETE FROM categories WHERE title = ?""", (title,))
 

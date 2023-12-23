@@ -604,8 +604,6 @@ class todo(QMainWindow, Ui_Todo):
             else:
                 cat = 'NULL'
 
-            # (datetime.datetime(y, m, d) - datetime.datetime.now()).days < 2
-            print(deadline)
             if (deadline == 'NULL' or task_date > now) and r[0] not in titles:
                 try:
                     titles.append(r[0])
