@@ -1,0 +1,8 @@
+PyQt5
+sqlite3
+os
+sys
+csv
+datetime
+itertools
+random

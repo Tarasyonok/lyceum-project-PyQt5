@@ -1,6 +1,5 @@
 import sqlite3
 import os
-import sys
 import datetime
 
 from itertools import chain
