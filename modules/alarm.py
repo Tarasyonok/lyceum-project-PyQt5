@@ -28,7 +28,7 @@ class alarm(QMainWindow, Ui_MainWindow):
         # filename = os.path.join(CURRENT_DIR, )
         self.player = QtMultimedia.QMediaPlayer()
         # url = QUrl.fromLocalFile(filename)
-        url = QUrl.fromLocalFile(r"sounds/sound.mp3")
+        url = QUrl.fromLocalFile(r"sound.mp3")
 
         self.player.setMedia(QtMultimedia.QMediaContent(url))
         self.player.play()

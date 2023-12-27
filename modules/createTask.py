@@ -119,7 +119,7 @@ class createTask(QMainWindow, Ui_MainWindow):
         if self.fname:
             with open("LocalStorage.txt", 'r') as ls:
                 n = int(ls.readlines()[-1])
-                path = f"userImages/img{n}.png"
+                path = f"img{n}.png"
             self.image.save(path)
             path = "'" + path + "'"
 

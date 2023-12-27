@@ -519,7 +519,7 @@ class todo(QMainWindow, Ui_Todo):
     def show_image(self):
         if self.curr_image:
             self.image_window = QMainWindow(self)
-            self.image_window.set
+            self.image_window.setWindowTitle("Просмотр изображения")
             self.img_container = QLabel(self.image_window)
             self.img_container.move(10, 10)
             self.img = QImage(self.curr_image)
@@ -631,8 +631,9 @@ class todo(QMainWindow, Ui_Todo):
         con.close()
 
     def make_csv_plan(self):
-        user = os.getenv("USERPROFILE")
-        filename = user + r"\Desktop\plan.csv"
+        # user = os.getenv("USERPROFILE")
+        # filename = user + r"\Desktop\plan.csv"
+        filename = 'plan.csv'
         with open(filename, 'w', newline='', encoding="utf8") as csvfile:
             writer = csv.writer(
                 csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
