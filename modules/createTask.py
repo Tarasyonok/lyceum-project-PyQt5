@@ -169,3 +169,4 @@ class createTask(QMainWindow, Ui_MainWindow):
         self.fname = QFileDialog.getOpenFileName(self, 'Выбрать картинку', '',
                                                  '*.jpg *.jpeg *.png')[0]
         self.image = QImage(self.fname)
+        self.statusBar().showMessage("Картинка загружена", 5000)

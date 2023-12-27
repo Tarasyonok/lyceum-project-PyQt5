@@ -519,6 +519,7 @@ class todo(QMainWindow, Ui_Todo):
     def show_image(self):
         if self.curr_image:
             self.image_window = QMainWindow(self)
+            self.image_window.set
             self.img_container = QLabel(self.image_window)
             self.img_container.move(10, 10)
             self.img = QImage(self.curr_image)

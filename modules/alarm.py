@@ -24,10 +24,12 @@ class alarm(QMainWindow, Ui_MainWindow):
 
         self.quiting = False
 
-        CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-        filename = os.path.join(CURRENT_DIR, "../sounds/sound.mp3")
+        # CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+        # filename = os.path.join(CURRENT_DIR, )
         self.player = QtMultimedia.QMediaPlayer()
-        url = QUrl.fromLocalFile(filename)
+        # url = QUrl.fromLocalFile(filename)
+        url = QUrl.fromLocalFile(r"sounds/sound.mp3")
+
         self.player.setMedia(QtMultimedia.QMediaContent(url))
         self.player.play()
         self.closeBtn.clicked.connect(self.closeEvent)
