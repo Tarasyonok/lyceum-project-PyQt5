@@ -223,9 +223,6 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
         self.close()
 
     def update_list(self):
-        if self.parent.curr_plan == 'today':
-            self.parent.load_today()
-        elif self.parent.curr_plan == 'tomorrow':
-            self.parent.load_today()
-        elif self.parent.curr_plan == 'daily':
-            self.parent.load_today()
+        self.parent.load_tasks()
+        self.parent.hide_right_part()
+

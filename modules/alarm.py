@@ -21,6 +21,7 @@ class alarm(QMainWindow, Ui_MainWindow):
         self.time.setText(time)
         self.setWindowTitle(time)
         self.description.setText(description)
+        self.repeatBtn.setText("Перенести на 30 минут")
         if description.strip() == '':
             self.description.hide()
 
@@ -50,7 +51,7 @@ class alarm(QMainWindow, Ui_MainWindow):
         con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
-        ten = (datetime.datetime.now() + datetime.timedelta(minutes=10)).time()
+        ten = (datetime.datetime.now() + datetime.timedelta(minutes=30)).time()
         cur.execute(f"""
         INSERT INTO reminders(date, time, description)
         VALUES('{datetime.datetime.now().date()}', '{str(ten)[:5]}', '{self.description.toPlainText()}')
@@ -58,6 +59,6 @@ class alarm(QMainWindow, Ui_MainWindow):
         con.commit()
         con.close()
 
-        self.parent.statusBar().showMessage("Напоминание перенесено на 10 минут", 5000)
+        self.parent.statusBar().showMessage("Напоминание перенесено на 30 минут", 5000)
 
         self.close()

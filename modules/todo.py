@@ -336,6 +336,9 @@ class todo(QMainWindow, Ui_Todo):
     def update_box(self, item):
         if self.curr_plan != 'today' and self.curr_plan != 'week' and self.curr_plan != 'month':
             return
+        if not item:
+            self.statusBar().showMessage("Выберете дело в списке", 5000)
+            return
         text = item.text()
         if text[0] == '🚨' or text[0] == '🎯':
             text = text[2:]
@@ -495,7 +498,9 @@ class todo(QMainWindow, Ui_Todo):
         self.description.append(result[2])
         self.description.show()
 
-        self.curr_image = correct_path(result[-1])
+        self.curr_image = result[-1]
+        if self.curr_image:
+            self.curr_image = correct_path(self.curr_image)
 
         if self.curr_image:
             self.viewImageBtn.show()
