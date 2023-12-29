@@ -7,6 +7,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from modules.correctPath import correct_path
+
 from UIpy.createEditTaskUI import Ui_MainWindow
 
 
@@ -15,7 +17,7 @@ class editTask(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # uic.loadUi('createEditTask.ui', self)
-        self.setWindowIcon(QIcon('icons/to-do-list.png'))
+        self.setWindowIcon(QIcon(correct_path('icons/to-do-list.png')))
         self.parent = parent
 
         self.task_type = task_type
@@ -25,7 +27,7 @@ class editTask(QMainWindow, Ui_MainWindow):
         self.windowLabel.setText("Изменение дела")
         self.saveBtn.setText("Сохранить")
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         categories = cur.execute("""SELECT title from categories""")
@@ -112,7 +114,7 @@ class editTask(QMainWindow, Ui_MainWindow):
         if title.strip() == '':
             self.statusBar().showMessage("Название не может быть пустым", 5000)
             return
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         category_title = self.categoryInput.currentText()

@@ -6,6 +6,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from modules.correctPath import correct_path
+
 from UIpy.categoriesSettingsUI import Ui_MainWindow
 
 
@@ -14,10 +16,10 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # uic.loadUi('categoriesSettings.ui', self)
-        self.setWindowIcon(QIcon('icons/to-do-list.png'))
+        self.setWindowIcon(QIcon(correct_path('icons/to-do-list.png')))
         self.parent = parent
 
-        fontId = QFontDatabase.addApplicationFont(r"Roboto/Roboto-Regular.ttf")
+        fontId = QFontDatabase.addApplicationFont(correct_path("Roboto/Roboto-Regular.ttf"))
 
         if fontId == 0:
             fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
@@ -45,7 +47,7 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
             self.statusBar().showMessage("Название не может быть пустым", 5000)
             return
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         titles = cur.execute("""SELECT title FROM categories""").fetchall()
@@ -72,7 +74,7 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
         self.close()
 
     def editCategory(self):
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         titles = cur.execute("""SELECT title FROM categories""").fetchall()
@@ -159,7 +161,7 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
             self.edit.statusBar().showMessage("Пустое название", 5000)
             return
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         titles = cur.execute("""SELECT title FROM categories""").fetchall()
@@ -182,7 +184,7 @@ class categoriesSettings(QMainWindow, Ui_MainWindow):
         self.close()
 
     def deleteCategory(self):
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         titles = cur.execute("""SELECT title FROM categories""").fetchall()

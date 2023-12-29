@@ -14,6 +14,7 @@ from modules.editTask import editTask
 from modules.categoriesSettings import categoriesSettings
 from modules.createReminder import createReminder
 from modules.alarm import alarm
+from modules.correctPath import correct_path
 
 from UIpy.todoUI import Ui_Todo
 
@@ -23,7 +24,7 @@ class todo(QMainWindow, Ui_Todo):
         super().__init__()
         self.setupUi(self)
         # uic.loadUi('UIui/todo.ui', self)
-        self.setWindowIcon(QIcon('icons/to-do-list.png'))
+        self.setWindowIcon(QIcon(correct_path('icons/to-do-list.png')))
         self.tasksList.setIconSize(QSize(20, 20))
         self.tasksList.setFont(QFont("Times", 12, QFont.Black))
 
@@ -63,19 +64,19 @@ class todo(QMainWindow, Ui_Todo):
         self.load_font()
 
     def load_images(self):
-        self.deleteBtn.setIcon(QIcon(r"images/bin.png"))
-        self.viewImageBtn.setIcon(QIcon(r"images/view-image.png"))
-        self.editBtn.setIcon(QIcon(r"images/pen.png"))
+        self.deleteBtn.setIcon(QIcon(correct_path("images/bin.png")))
+        self.viewImageBtn.setIcon(QIcon(correct_path("images/view-image.png")))
+        self.editBtn.setIcon(QIcon(correct_path("images/pen.png")))
 
     def load_font(self):
-        fontId = QFontDatabase.addApplicationFont(r"fonts/Roboto/Roboto-Regular.ttf")
+        fontId = QFontDatabase.addApplicationFont(correct_path("fonts/Roboto/Roboto-Regular.ttf"))
         if fontId == 0:
             fontName = QFontDatabase.applicationFontFamilies(fontId)[0]
             self.font = QFont(fontName, 15)
         else:
             self.font = QFont()
 
-        Rubik_fontId = QFontDatabase.addApplicationFont(r"fonts/Rubik_Dirt/RubikDirt-Regular.ttf")
+        Rubik_fontId = QFontDatabase.addApplicationFont(correct_path("fonts/Rubik_Dirt/RubikDirt-Regular.ttf"))
         if fontId == 0:
             fontName = QFontDatabase.applicationFontFamilies(Rubik_fontId)[0]
             self.Rubik_font = QFont(fontName, 15)
@@ -125,7 +126,7 @@ class todo(QMainWindow, Ui_Todo):
             self.add_task()
 
     def load_timer(self):
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         now = datetime.datetime.now()
@@ -153,7 +154,7 @@ class todo(QMainWindow, Ui_Todo):
                 self.alarm_widet = alarm(self, r[2], r[3])
                 self.alarm_widet.show()
 
-                con = sqlite3.connect("data/database.sqlite")
+                con = sqlite3.connect(correct_path("data/database.sqlite"))
                 cur = con.cursor()
 
                 cur.execute(f"""
@@ -165,7 +166,7 @@ class todo(QMainWindow, Ui_Todo):
                 con.close()
 
     def load_tasks(self):
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         self.addBtn.show()
@@ -266,9 +267,9 @@ class todo(QMainWindow, Ui_Todo):
                     item.setForeground(QColor(0, 0, 0))
                     if self.curr_plan == 'today' or self.curr_plan == 'week' or self.curr_plan == 'month':
                         if elem[2] == 0:
-                            icon = QIcon(r'images/blackCheckboxOff.png')
+                            icon = QIcon(correct_path('images/blackCheckboxOff.png'))
                         else:
-                            icon = QIcon(r'images/blackCheckboxOn.png')
+                            icon = QIcon(correct_path('images/blackCheckboxOn.png'))
                         item.setIcon(icon)
                         if self.curr_plan == 'today' and elem[3]:
                             y, m, d = map(int, elem[3].split('-'))
@@ -281,9 +282,9 @@ class todo(QMainWindow, Ui_Todo):
                     item.setForeground(QColor(255, 255, 255))
                     if self.curr_plan == 'today' or self.curr_plan == 'week' or self.curr_plan == 'month':
                         if elem[2] == 0:
-                            icon = QIcon(r'images/whiteCheckboxOff.png')
+                            icon = QIcon(correct_path('images/whiteCheckboxOff.png'))
                         else:
-                            icon = QIcon(r'images/whiteCheckboxOn.png')
+                            icon = QIcon(correct_path('images/whiteCheckboxOn.png'))
                         item.setIcon(icon)
                 item.setBackground(QColor(c1, c2, c3))
 
@@ -339,7 +340,7 @@ class todo(QMainWindow, Ui_Todo):
         if text[0] == '🚨' or text[0] == '🎯':
             text = text[2:]
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
         result = cur.execute(f"""
         SELECT {self.curr_plan}.isDone, IFNULL(categories.color, '255 255 255')
@@ -353,17 +354,17 @@ class todo(QMainWindow, Ui_Todo):
 
         if 1 - (0.299 * c1 + 0.587 * c2 + 0.114 * c3) / 255 < 0.5:
             if result[0] == 0:
-                icon = QIcon(r'images/blackCheckboxOn.png')
+                icon = QIcon(correct_path('images/blackCheckboxOn.png'))
 
             else:
-                icon = QIcon(r'images/blackCheckboxOff.png')
+                icon = QIcon(correct_path('images/blackCheckboxOff.png'))
 
         else:
             if result[0] == 0:
-                icon = QIcon(r'images/whiteCheckboxOn.png')
+                icon = QIcon(correct_path('images/whiteCheckboxOn.png'))
 
             else:
-                icon = QIcon(r'images/whiteCheckboxOff.png')
+                icon = QIcon(correct_path('images/whiteCheckboxOff.png'))
 
         item.setIcon(icon)
 
@@ -408,7 +409,7 @@ class todo(QMainWindow, Ui_Todo):
         self.hide_right_part()
         index = self.tasksList.indexFromItem(item).row()
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         if self.curr_plan == 'all':
@@ -494,7 +495,7 @@ class todo(QMainWindow, Ui_Todo):
         self.description.append(result[2])
         self.description.show()
 
-        self.curr_image = result[-1]
+        self.curr_image = correct_path(result[-1])
 
         if self.curr_image:
             self.viewImageBtn.show()
@@ -547,7 +548,7 @@ class todo(QMainWindow, Ui_Todo):
     def delete_task(self):
         if self.curr_plan == 'tomorrow' or self.curr_plan == 'all':
             return
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         cur.execute(f"""
@@ -575,7 +576,7 @@ class todo(QMainWindow, Ui_Todo):
         self.reminder.show()
 
     def change_plans(self):
-        con = sqlite3.connect('data/database.sqlite')
+        con = sqlite3.connect(correct_path('data/database.sqlite'))
         cur = con.cursor()
 
         result1 = cur.execute(
@@ -640,7 +641,7 @@ class todo(QMainWindow, Ui_Todo):
 
             writer.writerow(['Название', 'Описание', 'Категория', 'Выполнено/Не выполнено'])
 
-            con = sqlite3.connect('data/database.sqlite')
+            con = sqlite3.connect(correct_path('data/database.sqlite'))
             cur = con.cursor()
 
             result = cur.execute("""

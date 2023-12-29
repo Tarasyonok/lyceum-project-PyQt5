@@ -1,11 +1,14 @@
 import sqlite3
 import datetime
+import os
 
 from itertools import chain
 from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+
+from modules.correctPath import correct_path
 
 from UIpy.createEditTaskUI import Ui_MainWindow
 
@@ -15,12 +18,12 @@ class createTask(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # uic.loadUi('createEditTask.ui', self)
-        self.setWindowIcon(QIcon('icons/to-do-list.png'))
+        self.setWindowIcon(QIcon(correct_path('icons/to-do-list.png')))
         self.parent = parent
 
         self.task_type = task_type
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         categories = cur.execute("""SELECT title from categories""")
@@ -79,7 +82,7 @@ class createTask(QMainWindow, Ui_MainWindow):
             self.statusBar().showMessage("Название не может быть пустым", 5000)
             return
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         category_title = self.categoryInput.currentText()
@@ -119,8 +122,8 @@ class createTask(QMainWindow, Ui_MainWindow):
         if self.fname:
             with open("LocalStorage.txt", 'r') as ls:
                 n = int(ls.readlines()[-1])
-                path = f"img{n}.png"
-            self.image.save(path)
+                path = f"userImages/img{n}.png"
+            self.image.save(correct_path(path))
             path = "'" + path + "'"
 
             with open("LocalStorage.txt", 'w') as ls:
@@ -168,5 +171,6 @@ class createTask(QMainWindow, Ui_MainWindow):
     def load_image(self):
         self.fname = QFileDialog.getOpenFileName(self, 'Выбрать картинку', '',
                                                  '*.jpg *.jpeg *.png')[0]
-        self.image = QImage(self.fname)
+
+        self.image = QImage(correct_path(self.fname))
         self.statusBar().showMessage("Картинка загружена", 5000)

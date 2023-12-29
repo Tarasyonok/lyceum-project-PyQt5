@@ -8,13 +8,15 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from UIpy.alarmUI import Ui_MainWindow
 
+from modules.correctPath import correct_path
+
 
 class alarm(QMainWindow, Ui_MainWindow):
     def __init__(self, parent, time, description):
         super().__init__()
         self.setupUi(self)
         # uic.loadUi('alarm.ui', self)
-        self.setWindowIcon(QIcon('icons/clock.png'))
+        self.setWindowIcon(QIcon(correct_path('icons/clock.png')))
         self.parent = parent
         self.time.setText(time)
         self.setWindowTitle(time)
@@ -28,7 +30,7 @@ class alarm(QMainWindow, Ui_MainWindow):
         # filename = os.path.join(CURRENT_DIR, )
         self.player = QtMultimedia.QMediaPlayer()
         # url = QUrl.fromLocalFile(filename)
-        url = QUrl.fromLocalFile(r"sound.mp3")
+        url = QUrl.fromLocalFile(correct_path("sounds/sound.mp3"))
 
         self.player.setMedia(QtMultimedia.QMediaContent(url))
         self.player.play()
@@ -45,7 +47,7 @@ class alarm(QMainWindow, Ui_MainWindow):
     def repeat_alarm(self):
         if self.quiting:
             return
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         ten = (datetime.datetime.now() + datetime.timedelta(minutes=10)).time()

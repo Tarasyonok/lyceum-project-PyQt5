@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtMultimedia
 
 from modules.alarm import alarm
+from modules.correctPath import correct_path
 
 from UIpy.reminderUI import Ui_MainWindow
 
@@ -19,7 +20,7 @@ class createReminder(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # uic.loadUi('reminder.ui', self)
-        self.setWindowIcon(QIcon('icons/to-do-list.png'))
+        self.setWindowIcon(QIcon(correct_path('icons/to-do-list.png')))
         self.parent = parent
 
         self.timeInput.setTime(datetime.datetime.now().time())
@@ -32,7 +33,7 @@ class createReminder(QMainWindow, Ui_MainWindow):
         time = self.timeInput.time().toString('hh:mm')
         description = self.descriptionInput.toPlainText()
 
-        con = sqlite3.connect("data/database.sqlite")
+        con = sqlite3.connect(correct_path("data/database.sqlite"))
         cur = con.cursor()
 
         result = cur.execute(f"""
